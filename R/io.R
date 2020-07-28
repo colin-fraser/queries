@@ -10,7 +10,16 @@ queries_location <- function() {
   if (!is.null(getOption("queries_location"))) {
     return(getOption("queries_location"))
   }
-  return(fs::path(fs::path_home(), ".queries"))
+
+  default_fp <- fs::path(fs::path_home(), ".queries")
+  if (fs::dir_exists(default_fp)) {
+    return(default_fp)
+  } else {
+    stop(glue::glue("Default path {default_fp} does not exist. "),
+    "Create it or choose a different path with\n",
+    "options(queries_location='<PATH/TO/QUERIES>').")
+
+  }
 }
 
 #' List the available queries
@@ -83,6 +92,16 @@ open_query <- function(query_name, location = queries_location()) {
   rstudioapi::navigateToFile(file)
 }
 
+#' Create a query file
+#'
+#' @param name name of the query
+#' @param description description
+#' @param params parameters for the query
+#' @param body the select statement
+#' @param location where to save?
+#'
+#' @return NULL
+#'
 new_query <- function(name, description = NULL, params = NULL,
                       body = NULL, location = queries_location()) {
   header <- paste("--", readr::read_lines(yaml::as.yaml(list(
