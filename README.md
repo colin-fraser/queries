@@ -23,7 +23,7 @@ FROM sales
 GROUP BY {comma_join(group_by, leading_comma = FALSE, trailing_comma = FALSE)}
 ```
 
-Having set `options(queries_location = '/path/to/queries'), I can run
+Having set `options(queries_location = '/path/to/queries')`, I can run
 
 ```
 q <- load_query('sales_by_group')
