@@ -4,12 +4,13 @@
 \alias{load_query}
 \title{Load a query from file}
 \usage{
-load_query(query_name, location = queries_location())
+load_query(query_name, query_location = NULL)
 }
 \arguments{
-\item{query_name}{name of the query}
+\item{query_name}{name of the query. This can also be a path, in which
+case query_location is ignored.}
 
-\item{location}{location of the query}
+\item{query_location}{location of the query}
 }
 \value{
 loaded query

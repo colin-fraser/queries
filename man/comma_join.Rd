@@ -4,7 +4,7 @@
 \alias{comma_join}
 \title{Join a character vector together with commas}
 \usage{
-comma_join(s, leading_comma = TRUE, trailing_comma = FALSE, quote = FALSE)
+comma_join(s, leading_comma = FALSE, trailing_comma = FALSE, quote = FALSE)
 }
 \arguments{
 \item{s}{a character vector to be joined}

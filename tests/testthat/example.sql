@@ -1,8 +1,11 @@
--- name: example
--- description: an example query. Try running with group_by set to country
+-- name: Sales by group
+-- description: an example query. Compute metrics grouped by dimensions. If
+--  the description is really long you can just continue on the next line with a
+--  single-space indent.
 -- params:
---   - group_by
+--   - dimensions: character vector of columns to group by
+--   - metrics: character vector of columns to compute
 
-SELECT COUNT(CustomerID) {comma_join_if_not_null(group_by)}
+SELECT {comma_join(metrics, trailing_comma = TRUE)} {comma_join(dimensions)}
 FROM Customers
-GROUP BY {comma_join_if_not_null(group_by, leading_comma = FALSE)}
+GROUP BY {comma_join(dimensions)}

@@ -8,7 +8,9 @@
 #' @return a length-1 character vector
 #' @export
 #'
-comma_join <- function(s, leading_comma = TRUE, trailing_comma = FALSE, quote = FALSE) {
+comma_join <- function(s, leading_comma = FALSE, trailing_comma = FALSE,
+                       quote = FALSE) {
+  if (is.null(s)) return ("")
   if (quote) {
     s <- shQuote(s)
   }
@@ -17,17 +19,14 @@ comma_join <- function(s, leading_comma = TRUE, trailing_comma = FALSE, quote = 
     out <- paste(",", out)
   }
   if (trailing_comma) {
-    out <- paste(out, ",")
+    out <- paste0(out, ",")
   }
   return(out)
 }
 
-#' Join a character vector
+#' Insert blank character if a variable is null
 #'
-#' @param s vector of items to join
-#' @param leading_comma should a leading comma be inserted?
-#' @param trailing_comma should a trailing comma be inserted?
-#' @param quote should elements of the output be quoted?
+#' @param s String to insert, or blank if null
 #'
 #' This is useful for specifying e.g. a column list that may or may not
 #' be part of a query.
@@ -35,21 +34,11 @@ comma_join <- function(s, leading_comma = TRUE, trailing_comma = FALSE, quote = 
 #' @return a character vector
 #' @export
 #'
-#' @examples
-#' comma_join_if_not_null(NULL) # returns ""
-#' comma_join_if_not_null(1:3, leading_comma = FALSE) # returns "1, 2, 3"
-comma_join_if_not_null <- function(s, leading_comma = TRUE, trailing_comma = FALSE, quote = FALSE) {
-  if (!is.null(s)) {
-    return(comma_join(s, leading_comma = leading_comma, trailing_comma = trailing_comma, quote = quote))
-  } else {
+blank_if_null <- function(s) {
+  if (is.null(s)) {
     return("")
+  } else {
+    return(s)
   }
 }
 
-blank_if_null <- function(indicator, otherwise) {
-  if (is.null(indicator)) {
-    return("")
-  } else {
-    return(otherwise)
-  }
-}

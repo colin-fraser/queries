@@ -7,8 +7,12 @@
 #' @export
 #'
 queries_location <- function() {
-  if (!is.null(getOption("queries_location"))) {
-    return(getOption("queries_location"))
+  if (fs::dir_exists("sql")) {
+    return("sql")
+  }
+
+  if (!is.null(getOption("default_queries_location"))) {
+    return(getOption("default_queries_location"))
   }
 
   default_fp <- fs::path(fs::path_home(), ".queries")
@@ -46,14 +50,22 @@ list_queries <- function(location = queries_location()) {
 #' @export
 #' @importFrom rlang .data
 query_from_string <- function(s) {
-  query_lines <- readr::read_lines(s)
-  first_blank <- which(query_lines == "")[1]
-  q <- gsub("-- *", "", query_lines[1:(first_blank - 1)]) %>%
-    paste(collapse = "\n") %>%
-    yaml::yaml.load()
-  q$template <- paste(query_lines, collapse = "\n")
 
+  q <- yaml::yaml.load(extract_header(s), as.named.list = T)
+
+  q$params <- unlist(q$params)
+  q$template <- s
   class(q) <- "query_template"
+
+  q
+}
+
+extract_header <- function(s) {
+  query_lines <- readr::read_lines(s)
+  header_end <- which(substr(query_lines, 1, 2) != '--')[1]
+
+  q <- gsub("--", "", query_lines[1:(header_end - 1)]) %>%
+    paste(collapse = "\n")
 
   q
 }
@@ -63,20 +75,34 @@ query_from_file <- function(file) {
 }
 
 
+#' Print query
+#'
+#' @param qt a query of time query_template
+#'
+#' @return NULL
+#' @export
+#'
 print.query_template <- function(qt) {
   cat(qt$template)
 }
 
 #' Load a query from file
 #'
-#' @param query_name name of the query
-#' @param location location of the query
+#' @param query_name name of the query. This can also be a path, in which
+#' case query_location is ignored.
+#' @param query_location location of the query
 #'
 #' @return loaded query
 #' @export
 #'
-load_query <- function(query_name, location = queries_location()) {
-  file <- fs::path(location, paste0(query_name, ".sql"))
+load_query <- function(query_name, query_location = NULL) {
+  if (fs::file_exists(query_name)) {
+    return(query_from_file(query_name))
+  }
+  if (is.null(query_location)) {
+    query_location <- queries_location()
+  }
+  file <- fs::path(query_location, paste0(query_name, ".sql"))
   query_from_file(file)
 }
 
@@ -120,4 +146,27 @@ new_query <- function(name, description = NULL, params = NULL,
   if (interactive()) {
     rstudioapi::navigateToFile(save_to)
   }
+}
+
+#' Print the header of a query
+#'
+#' @param q a query
+#'
+#' @return silently returns the head
+#' @export
+#'
+head.query_template <- function(q) {
+  h <- extract_header(q$template)
+  cat(h)
+  invisible(h)
+}
+
+#' Sets the default queries location
+#'
+#' @param path file path to a directory with .sql files
+#'
+#' @export
+#'
+query_set_default_location <- function(path) {
+  options(default_queries_location=path)
 }

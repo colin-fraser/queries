@@ -16,9 +16,9 @@ query_substitute <- function(q, ..., query_location = queries_location(), append
   } else {
     query <- q
   }
-  missing_params <- setdiff(query$params, names(list(...)))
+  missing_params <- setdiff(names(query$params), names(list(...)))
   if (length(missing_params) > 0) {
-    stop(glue::glue("{query$name} requires params {paste(missing_params, collapse = ', ')}"))
+    stop(glue::glue("{query$name} requires params: {paste(missing_params, collapse = ', ')}"))
   }
 
   out <- glue::glue(query$template, .envir = rlang::env(...))
@@ -28,7 +28,6 @@ query_substitute <- function(q, ..., query_location = queries_location(), append
     )
     out <- paste(out, param_note, sep = "\n\n")
   }
-
 
   out
 }

@@ -18,7 +18,8 @@ Imports:
     yaml (>= 2.2.0),
     rlang (>= 0.4.3),
     tibble (>= 2.1.3),
-    rstudioapi (>= 0.10)
+    rstudioapi (>= 0.10),
+    stringr
 RoxygenNote: 7.0.2
 Suggests: 
     testthat (>= 2.1.0)
