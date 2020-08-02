@@ -11,5 +11,4 @@ test_that("query_location works", {
   options(default_queries_location = "abc")
   expect_equal(queries_location(), "abc")
   options(default_queries_location = NULL)
-}
-)
+})

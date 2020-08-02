@@ -19,10 +19,11 @@ queries_location <- function() {
   if (fs::dir_exists(default_fp)) {
     return(default_fp)
   } else {
-    stop(glue::glue("Default path {default_fp} does not exist. "),
-    "Create it or choose a different path with\n",
-    "options(queries_location='<PATH/TO/QUERIES>').")
-
+    stop(
+      glue::glue("Default path {default_fp} does not exist. "),
+      "Create it or choose a different path with\n",
+      "options(queries_location='<PATH/TO/QUERIES>')."
+    )
   }
 }
 
@@ -50,7 +51,6 @@ list_queries <- function(location = queries_location()) {
 #' @export
 #' @importFrom rlang .data
 query_from_string <- function(s) {
-
   q <- yaml::yaml.load(extract_header(s), as.named.list = T)
 
   q$params <- unlist(q$params)
@@ -62,7 +62,7 @@ query_from_string <- function(s) {
 
 extract_header <- function(s) {
   query_lines <- readr::read_lines(s)
-  header_end <- which(substr(query_lines, 1, 2) != '--')[1]
+  header_end <- which(substr(query_lines, 1, 2) != "--")[1]
 
   q <- gsub("--", "", query_lines[1:(header_end - 1)]) %>%
     paste(collapse = "\n")
@@ -133,14 +133,14 @@ new_query <- function(name, description = NULL, params = NULL,
   header <- paste("--", readr::read_lines(yaml::as.yaml(list(
     name = name, description = description,
     params = params
-  ))), collapse = '\n')
+  ))), collapse = "\n")
 
   if (is.null(body)) {
-    body <- '-- Body:'
+    body <- "-- Body:"
   }
 
-  out <- paste(header, body, sep = '\n\n')
-  save_to <- fs::path(location, paste0(name, '.sql'))
+  out <- paste(header, body, sep = "\n\n")
+  save_to <- fs::path(location, paste0(name, ".sql"))
   readr::write_file(out, path = save_to)
 
   if (interactive()) {
@@ -168,5 +168,5 @@ head.query_template <- function(q) {
 #' @export
 #'
 query_set_default_location <- function(path) {
-  options(default_queries_location=path)
+  options(default_queries_location = path)
 }

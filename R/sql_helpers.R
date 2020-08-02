@@ -10,7 +10,9 @@
 #'
 comma_join <- function(s, leading_comma = FALSE, trailing_comma = FALSE,
                        quote = FALSE) {
-  if (is.null(s)) return ("")
+  if (is.null(s)) {
+    return("")
+  }
   if (quote) {
     s <- shQuote(s)
   }
@@ -41,4 +43,3 @@ blank_if_null <- function(s) {
     return(s)
   }
 }
-

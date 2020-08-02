@@ -12,7 +12,7 @@ The package reads modified sql files that have metadata stored in yaml format in
 
 ```
 -- name: Sales by group
--- description: an example query. Try running with group_by set to country. If
+-- description: an example query. Computes metrics grouped by dimensions. If
 --  the description is really long you can just continue on the next line with a
 --  single-space indent.
 -- params:
@@ -28,18 +28,21 @@ GROUP BY {comma_join(dimensions)}
 Having set `options(default_queries_location = '/path/to/queries')`, I can run
 
 ```
-query_substitute('sales_by_group', metrics = c('SUM(Sales)', 'AVG(Sales)'), dimensions = c('Country', 'Segment'), query_location = 'tests/testthat') %>% cat
--- name: example
--- description: an example query. Try running with group_by set to country. If
---  the description is really long you can just continue on the next line with a
---  single-space indent.
--- params:
---   - dimensions: columns to group by
---   - metrics: metrics to compute for each dimension
-
-SELECT SUM(Sales), AVG(Sales), Country, Segment
-FROM Customers
-GROUP BY Country, Segment
+query_substitute('sales_by_group', 
+  metrics = c('SUM(Sales)', 'AVG(Sales)'), 
+  dimensions = c('Country', 'Segment'))
+  )
+# -- name: example
+# -- description: an example query. Try running with group_by set to country. If
+# --  the description is really long you can just continue on the next line with a
+# --  single-space indent.
+# -- params:
+# --   - dimensions: columns to group by
+# --   - metrics: metrics to compute for each dimension
+# 
+# SELECT SUM(Sales), AVG(Sales), Country, Segment
+# FROM Customers
+# GROUP BY Country, Segment
 ```
 
 ## Big picture usage
