@@ -65,7 +65,8 @@ Whenever I need to run one of these queries, I build the query with
 
 If I don't remember all the parameters, I can view the header with `head`:
 
-```head(q)
+```
+head(q)
  # name: example
  # description: an example query. Compute metrics grouped by dimensions. If
  #  the description is really long you can just continue on the next line with a
