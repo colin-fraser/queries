@@ -31,7 +31,7 @@ GROUP BY {comma_join(dimensions)}
 Having set `options(default_queries_location = '/path/to/queries')`, I can run `
 
 ```
-query_substitute("sales_by_group", metrics = c('sum(sales)', 'avg(sales)'), dimensions = 'country')
+query_substitute("sales_by_group", metrics = c('sum(sales)', 'avg(sales)'))
 # SELECT sum(sales), avg(sales), country
 # FROM Customers
 # GROUP BY country
