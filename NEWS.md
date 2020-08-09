@@ -1,4 +1,6 @@
 # queries 0.2.0
+- Improve logic for looking for files
+- Add default parameters to parameters
 
 # queries 0.1.1
 * Changed look for queries in /sql first
