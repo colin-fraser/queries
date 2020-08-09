@@ -12,37 +12,29 @@ The package reads modified sql files that have metadata stored in yaml format in
 
 ```
 -- name: Sales by group
--- description: an example query. Computes metrics grouped by dimensions. If
---  the description is really long you can just continue on the next line with a
---  single-space indent.
+-- description: Computes metrics grouped by dimensions. If the description is 
+--  really long you can just continue on the next line with a single-space 
+--  indent.
 -- params:
---   - dimensions: columns to group by
---   - metrics: metrics to compute for each dimension
+--   - name: dimensions
+--     description: dimensions to group by
+--     default: country
+--   - name: metrics
+--     description: metrics to aggregate by dimension
 
-SELECT {comma_join(metrics)}, {comma_join(dimensions)}
+SELECT {comma_join(metrics, trailing_comma = TRUE)} {comma_join(dimensions)}
 FROM Customers
 GROUP BY {comma_join(dimensions)}
 
 ```
 
-Having set `options(default_queries_location = '/path/to/queries')`, I can run
+Having set `options(default_queries_location = '/path/to/queries')`, I can run `
 
 ```
-query_substitute('sales_by_group', 
-  metrics = c('SUM(Sales)', 'AVG(Sales)'), 
-  dimensions = c('Country', 'Segment'))
-  )
-# -- name: example
-# -- description: an example query. Try running with group_by set to country. If
-# --  the description is really long you can just continue on the next line with a
-# --  single-space indent.
-# -- params:
-# --   - dimensions: columns to group by
-# --   - metrics: metrics to compute for each dimension
-# 
-# SELECT SUM(Sales), AVG(Sales), Country, Segment
+query_substitute("sales_by_group", metrics = c('sum(sales)', 'avg(sales)'), dimensions = 'country')
+# SELECT sum(sales), avg(sales), country
 # FROM Customers
-# GROUP BY Country, Segment
+# GROUP BY country
 ```
 
 ## Big picture usage
@@ -67,13 +59,16 @@ If I don't remember all the parameters, I can view the header with `head`:
 
 ```
 head(q)
- # name: example
- # description: an example query. Compute metrics grouped by dimensions. If
- #  the description is really long you can just continue on the next line with a
- #  single-space indent.
- # params:
- #   - dimensions: A character vector of columns to group by
- #   - metrics: A character vector of metrics to compute.
+# name: Sales by group
+# description: Computes metrics grouped by dimensions. If the description is
+#  really long you can just continue on the next line with a single-space
+#  indent.
+# params:
+#   - name: dimensions
+#     description: dimensions to group by
+#     default: country
+#   - name: metrics
+#     description: metrics to aggregate by dimension
 ```
 
 ### R Projects
