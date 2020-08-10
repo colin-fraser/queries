@@ -74,9 +74,6 @@ args(qf)
 #> NULL
 ```
 
-RStudio will see these and autocomplete them, which is convenient. When
-I forget a parameter, it tells me.
-
 ``` r
 qf(dimensions = "Segment")
 #> Error in qf(dimensions = "Segment"): Missing params with no default:
