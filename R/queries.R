@@ -161,7 +161,7 @@ query_set_default_location <- function(path) {
 #'
 
 query_substitute <- function(qry, ..., query_location = queries_default_location(),
-                             include_header = FALSE, append_params = TRUE) {
+                             include_header = FALSE, append_params = FALSE) {
   if (class(qry) == "character") {
     query <- query_load(qry, query_location, include_header)
   } else if (class(qry) == "query_template") {

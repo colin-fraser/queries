@@ -9,7 +9,7 @@ query_substitute(
   ...,
   query_location = queries_default_location(),
   include_header = FALSE,
-  append_params = TRUE
+  append_params = FALSE
 )
 }
 \arguments{
