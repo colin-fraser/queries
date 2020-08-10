@@ -1,3 +1,6 @@
+# queries 0.2.1
+- Added query_as_function
+
 # queries 0.2.0
 - Improve logic for looking for files
 - Add default parameters to parameters

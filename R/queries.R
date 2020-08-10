@@ -161,7 +161,7 @@ query_set_default_location <- function(path) {
 #'
 
 query_substitute <- function(qry, ..., query_location = queries_default_location(),
-                             include_header = FALSE, append_params = TRUE) {
+                             include_header = FALSE, append_params = FALSE) {
   if (class(qry) == "character") {
     query <- query_load(qry, query_location, include_header)
   } else if (class(qry) == "query_template") {
@@ -195,6 +195,8 @@ query_view <- function(location = queries_default_location(),
     })
 }
 
+
+
 env_from_params <- function(params, ...) {
   param_list <- list(...)
 
@@ -217,4 +219,33 @@ env_from_params <- function(params, ...) {
     rlang::as_environment(parent = rlang::env_parent())
 
   return(user_specified)
+}
+
+
+#' Turn a parameterized query into a function
+#'
+#' @param x a query loaded with query_load
+#' @param include_header include the header in the query output
+#' @param append_params append parameter values in the query
+#'
+#' @return a function whose arguments are the query parameters
+#' @export
+#'
+query_as_function <- function(x, include_header = FALSE, append_params = FALSE) {
+  fpar <- as.pairlist(x$params %>% purrr::map(~ list(.x$default) %>% rlang::set_names(.x$name)) %>% purrr::flatten())
+  f <- function() {
+    args <- as.list(environment())
+    null_args <- args %>%
+      purrr::keep(is.null) %>%
+      names
+    if (length(null_args) > 0) {
+      stop("Missing params with no default:\n",
+           paste0("- ", null_args, collapse = '\n'))
+    }
+    do.call(query_substitute, c(list(qry = x), args,
+                                list(include_header = include_header,
+                                     append_params = append_params)))
+  }
+  formals(f) <- fpar
+  f
 }
