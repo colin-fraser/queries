@@ -1,3 +1,5 @@
+# queries 0.3.0
+
 # queries 0.2.1
 - Added query_as_function
 
