@@ -159,7 +159,6 @@ query_set_default_location <- function(path) {
 #' @return a formatted query
 #' @export
 #'
-
 query_substitute <- function(qry, ..., query_location = queries_default_location(),
                              include_header = FALSE, append_params = FALSE) {
   if (class(qry) == "character") {
@@ -248,4 +247,31 @@ query_as_function <- function(x, include_header = FALSE, append_params = FALSE) 
   }
   formals(f) <- fpar
   f
+}
+
+#' Create a parameterized query
+#'
+#' @param filename what do you want the query to be called
+#' @param query_name the name at the top of the query description
+#' @param param_names names of query parameters
+#' @param path where to save the query
+#' @param open if true, the saved file opens in rstudio
+#'
+#' @return invisibly
+#' @export
+#'
+query_create <- function(filename, query_name = "",
+                         param_names = NULL,
+                         path = queries_default_location(),
+                         open = TRUE) {
+
+  q <- glue::glue(
+    "-- name: {query_name}\n-- params:\n{paste('-- - name:', param_names, collapse = '\n')}"
+  )
+  outpath <- fs::path_ext_set(fs::path(path, filename), 'sql')
+  f <- readr::write_file(q, outpath)
+  if (rstudioapi::isAvailable() & open) {
+    rstudioapi::navigateToFile(outpath)
+  }
+  invisible(f)
 }
