@@ -1,4 +1,5 @@
 # queries 0.3.0
+- Add query_create as a convenience function for starting new query files.
 
 # queries 0.2.1
 - Added query_as_function
