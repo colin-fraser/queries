@@ -17,7 +17,7 @@ replace parameters.
 The package reads modified sql files that have metadata stored in yaml
 format in a comment block at the top. Here’s a simple example: start
 with a file like
-`[tests/testthat/example_with_defaults.sql](tests/testthat/example_with_defaults.sql)`.
+[tests/testthat/example_with_defaults.sql](tests/testthat/example_with_defaults.sql).
 
 ``` r
 cat(readr::read_file("tests/testthat/example_with_defaults.sql"))
