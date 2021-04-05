@@ -70,8 +70,9 @@ separate_head_body <- function(s) {
 
   head <- gsub("-- ", "", query_lines[1:(header_end - 1)]) %>%
     paste(collapse = "\n")
-  body <- trimws(paste(query_lines[header_end:length(query_lines)], collapse = '\n'),
-                 whitespace = '\n')
+  body <- trimws(paste(query_lines[header_end:length(query_lines)], collapse = "\n"),
+    whitespace = "\n"
+  )
 
   return(list(head = head, body = body))
 }
@@ -112,8 +113,10 @@ query_load <- function(query_name, query_location = queries_default_location(),
     return(query_from_file(fs::path("sql", query_name), include_header))
   }
   if (fs::file_exists(fs::path("sql", query_name, ext = "sql"))) {
-    return(query_from_file(fs::path("sql", query_name, ext = "sql"),
-                           include_header))
+    return(query_from_file(
+      fs::path("sql", query_name, ext = "sql"),
+      include_header
+    ))
   }
 
 
@@ -175,7 +178,7 @@ query_substitute <- function(qry, ..., query_location = queries_default_location
   out <- glue::glue(query$template, .envir = rlang::env(glue_env))
   if (append_params) {
     param_note <- paste("--", readr::read_lines(yaml::as.yaml(as.list(glue_env))),
-                        collapse = "\n"
+      collapse = "\n"
     )
     out <- paste(out, param_note, sep = "\n\n")
   }
@@ -236,14 +239,20 @@ query_as_function <- function(x, include_header = FALSE, append_params = FALSE) 
     args <- as.list(environment())
     null_args <- args %>%
       purrr::keep(is.null) %>%
-      names
+      names()
     if (length(null_args) > 0) {
-      stop("Missing params with no default:\n",
-           paste0("- ", null_args, collapse = '\n'))
+      stop(
+        "Missing params with no default:\n",
+        paste0("- ", null_args, collapse = "\n")
+      )
     }
-    do.call(query_substitute, c(list(qry = x), args,
-                                list(include_header = include_header,
-                                     append_params = append_params)))
+    do.call(query_substitute, c(
+      list(qry = x), args,
+      list(
+        include_header = include_header,
+        append_params = append_params
+      )
+    ))
   }
   formals(f) <- fpar
   f
@@ -264,11 +273,10 @@ query_create <- function(filename, query_name = "",
                          param_names = NULL,
                          path = queries_default_location(),
                          open = TRUE) {
-
   q <- glue::glue(
     "-- name: {query_name}\n-- params:\n{paste('-- - name:', param_names, collapse = '\n')}"
   )
-  outpath <- fs::path_ext_set(fs::path(path, filename), 'sql')
+  outpath <- fs::path_ext_set(fs::path(path, filename), "sql")
   f <- readr::write_file(q, outpath)
   if (rstudioapi::isAvailable() & open) {
     rstudioapi::navigateToFile(outpath)

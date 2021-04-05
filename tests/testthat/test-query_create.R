@@ -9,6 +9,6 @@ test_that("query_create works", {
   expect_true(fs::file_exists(tq))
 
   # query sub works
-  expect_equal(query_substitute(query_load(tq), A="a", B="b"), "a b")
+  expect_equal(query_substitute(query_load(tq), A = "a", B = "b"), "a b")
   fs::dir_delete(tf)
 })
