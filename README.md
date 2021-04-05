@@ -4,7 +4,7 @@
 # queries
 
 <!-- badges: start -->
-
+[![R-CMD-check](https://github.com/colin-fraser/queries/actions/workflows/check-standard.yaml/badge.svg?branch=master)](https://github.com/colin-fraser/queries/actions/workflows/check-standard.yaml)
 <!-- badges: end -->
 
 I have a number of parameterized SQL queries that I run regularly. The
