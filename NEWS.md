@@ -1,3 +1,6 @@
+# queries 0.3.1
+- set up github actions and make tests pass on Windows
+
 # queries 0.3.0
 - Add query_create as a convenience function for starting new query files.
 

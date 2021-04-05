@@ -1,7 +1,7 @@
 Package: queries
 Type: Package
 Title: Store and Manage Parameterized Queries
-Version: 0.3.0
+Version: 0.3.1
 Author: Colin Fraser
 Maintainer: Colin Fraser <colin.r.fraser@gmail.com>
 Description: Maintain a set of parameterized queries with easy parameterization. 
