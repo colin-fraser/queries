@@ -14,7 +14,7 @@ comma_join <- function(s, leading_comma = FALSE, trailing_comma = FALSE,
     return("")
   }
   if (quote) {
-    s <- shQuote(s)
+    s <- paste0("'", s, "'")
   }
   out <- paste(paste(s, collapse = ", "))
   if (leading_comma) {
