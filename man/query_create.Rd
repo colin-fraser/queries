@@ -4,13 +4,7 @@
 \alias{query_create}
 \title{Create a parameterized query}
 \usage{
-query_create(
-  filename,
-  query_name = "",
-  param_names = NULL,
-  path = queries_default_location(),
-  open = TRUE
-)
+query_create(filename, query_name = "", param_names = NULL, open = TRUE)
 }
 \arguments{
 \item{filename}{what do you want the query to be called}
@@ -18,8 +12,6 @@ query_create(
 \item{query_name}{the name at the top of the query description}
 
 \item{param_names}{names of query parameters}
-
-\item{path}{where to save the query}
 
 \item{open}{if true, the saved file opens in rstudio}
 }

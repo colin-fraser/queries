@@ -21,3 +21,9 @@ a length-1 character vector
 \description{
 Join a character vector together with commas
 }
+\examples{
+comma_join(letters)
+comma_join(letters, leading_comma = TRUE)
+comma_join(letters, quote = TRUE)
+
+}

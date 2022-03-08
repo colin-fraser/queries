@@ -190,13 +190,12 @@ query_substitute <- function(qry, ..., query_location = queries_default_location
 
 #' Creates the environment for using glue to replace 
 #'
-#' @param params 
-#' @param ... 
+#' @param params list of parameters
+#' @param ... filled parameter values
 #'
-#' @return
-#' @export
+#' @return an environment for gluing
+#' @keywords internal
 #'
-#' @examples
 env_from_params <- function(params, ...) {
   param_list <- list(...)
 
@@ -274,7 +273,7 @@ query_create <- function(filename, query_name = "",
   )
   f <- readr::write_file(q, filename)
   if (rstudioapi::isAvailable() & open) {
-    rstudioapi::navigateToFile(outpath)
+    rstudioapi::navigateToFile(filename)
   }
   invisible(f)
 }

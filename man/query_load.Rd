@@ -4,11 +4,7 @@
 \alias{query_load}
 \title{Load a query from file}
 \usage{
-query_load(
-  query_name,
-  query_location = queries_default_location(),
-  include_header = FALSE
-)
+query_load(query_name, query_location = "sql", include_header = FALSE)
 }
 \arguments{
 \item{query_name}{name of the query. This can also be a path, in which

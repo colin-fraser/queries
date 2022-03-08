@@ -12,3 +12,9 @@ test_that("blank_if_null works", {
   expect_equal(blank_if_null("a"), "a")
   expect_equal(blank_if_null(NULL), "")
 })
+
+test_that("named_vec_to_cols works", {
+  expect_equal(named_vec_to_cols(c(a = "A")), "A as a")
+  expect_equal(named_vec_to_cols(c(a = "A", b = "B")),
+                                 "A as a,\nB as b")
+})
