@@ -7,6 +7,9 @@
 #'
 #' @return a length-1 character vector
 #' @export
+#' 
+#' @examples 
+#' 
 #'
 comma_join <- function(s, leading_comma = FALSE, trailing_comma = FALSE,
                        quote = FALSE) {
@@ -43,3 +46,4 @@ blank_if_null <- function(s) {
     return(s)
   }
 }
+

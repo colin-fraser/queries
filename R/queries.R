@@ -104,7 +104,7 @@ print.query_template <- function(x, ...) {
 #' @return loaded query
 #' @export
 #'
-query_load <- function(query_name, query_location = queries_default_location(),
+query_load <- function(query_name, query_location = 'sql',
                        include_header = FALSE) {
   if (fs::file_exists(query_name)) {
     return(query_from_file(query_name, include_header))
@@ -186,19 +186,17 @@ query_substitute <- function(qry, ..., query_location = queries_default_location
   out
 }
 
-query_view <- function(location = queries_default_location(),
-                       starts_with = NULL) {
-  location %>%
-    fs::dir_ls() %>%
-    purrr::map(function(x) {
-      filename <- x
-      query <- stringr::str_wrap(head(query_from_file(x)), indent = 2, exdent = 2)
-      paste(filename, query, sep = "\n")
-    })
-}
 
 
-
+#' Creates the environment for using glue to replace 
+#'
+#' @param params 
+#' @param ... 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 env_from_params <- function(params, ...) {
   param_list <- list(...)
 
@@ -263,7 +261,6 @@ query_as_function <- function(x, include_header = FALSE, append_params = FALSE) 
 #' @param filename what do you want the query to be called
 #' @param query_name the name at the top of the query description
 #' @param param_names names of query parameters
-#' @param path where to save the query
 #' @param open if true, the saved file opens in rstudio
 #'
 #' @return invisibly
@@ -271,13 +268,11 @@ query_as_function <- function(x, include_header = FALSE, append_params = FALSE) 
 #'
 query_create <- function(filename, query_name = "",
                          param_names = NULL,
-                         path = queries_default_location(),
                          open = TRUE) {
   q <- glue::glue(
     "-- name: {query_name}\n-- params:\n{paste('-- - name:', param_names, collapse = '\n')}"
   )
-  outpath <- fs::path_ext_set(fs::path(path, filename), "sql")
-  f <- readr::write_file(q, outpath)
+  f <- readr::write_file(q, filename)
   if (rstudioapi::isAvailable() & open) {
     rstudioapi::navigateToFile(outpath)
   }

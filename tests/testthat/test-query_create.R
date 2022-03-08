@@ -1,14 +1,13 @@
 test_that("query_create works", {
-  # create temp query
-  tf <- tempdir()
-  query_create("123", "Hello!", param_names = c("A", "B"), path = tf, open = F)
-  tq <- fs::path(tf, "123.sql")
-  readr::write_file("\n{A} {B}", tq, append = TRUE)
+  tf <- fs::file_temp()
+  query_create(tf, "Hello!", param_names = c("A", "B"), open = F)
+  readr::write_file("\n{A} {B}", tf, append=TRUE) # write something to the new query
 
   # file exists
-  expect_true(fs::file_exists(tq))
+  expect_true(fs::file_exists(tf))
 
   # query sub works
-  expect_equal(query_substitute(query_load(tq), A = "a", B = "b"), "a b")
-  fs::dir_delete(tf)
+  expect_equal(query_substitute(query_load(tf), A = "a", B = "b"), "a b")
+  fs::file_delete(tf)
 })
+
