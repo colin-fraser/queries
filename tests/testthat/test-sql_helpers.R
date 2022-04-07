@@ -18,3 +18,15 @@ test_that("named_vec_to_cols works", {
   expect_equal(named_vec_to_cols(c(a = "A", b = "B")),
                                  "A as a,\nB as b")
 })
+
+test_that("and_join works", {
+  expect_equal(and_join(NULL), "")
+  expect_equal(and_join("A"), "A")
+  expect_equal(and_join(c("A", "B")), "A and\nB")
+  expect_equal(and_join(c("A", "B"), leading_and = TRUE),
+               "and\nA and\nB")
+  expect_equal(and_join(c("A", "B"), trailing_and = TRUE),
+               "A and\nB and\n")
+  expect_equal(and_join(c("A", "B"), leading_and = TRUE, trailing_and = TRUE),
+               "and\nA and\nB and\n")
+})

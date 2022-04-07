@@ -61,3 +61,26 @@ blank_if_null <- function(s) {
 named_vec_to_cols <- function(s) {
   paste(s, names(s), sep = " as ", collapse = ",\n")
 }
+
+#' Join a vector with 'AND'
+#'
+#' @param s a character vector
+#' @param leading_and logical indicating whether 'and' should be pre-pended
+#' @param trailing_and logical indicating whether 'and' should be post-pended
+#'
+#' @return a string with the elements of s joined by 'AND'
+#' @export
+#'
+#' @examples
+#' and_join("")
+#' and_join("country = 'US'")
+#' and_join(c("country = 'US'", "type = 1"))
+and_join <- function(s, leading_and = FALSE, trailing_and = FALSE) {
+  if (is.null(s)) {
+    return("")
+  }
+  prefix <- {if (leading_and) 'and\n' else ''}
+  suffix <- {if (trailing_and) ' and\n' else ''}
+  paste0(prefix, paste0(s, collapse = ' and\n'), suffix)
+}
+
