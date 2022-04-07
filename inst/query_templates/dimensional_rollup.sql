@@ -14,7 +14,7 @@
 
 SELECT 
 {comma_join(dimensions)},
-{comma_join(metrics)},
+{comma_join(metrics)}
 FROM {table_name}
 {blank_if_null(where, paste("WHERE", and_join(where)))}
 GROUP BY {comma_join(dimensions, names_to_as = FALSE)}

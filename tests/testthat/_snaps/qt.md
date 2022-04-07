@@ -29,7 +29,7 @@
     Output
       SELECT 
       date as order_date, country,
-      sum(sales),
+      sum(sales)
       FROM sales_cube
       
       GROUP BY date, country
@@ -43,7 +43,7 @@
     Output
       SELECT 
       date as order_date, country,
-      sum(sales) as sales, avg(sales) as avg_sales,
+      sum(sales) as sales, avg(sales) as avg_sales
       FROM sales_cube
       WHERE date>=2020 and
       country in ('US', 'CA')
