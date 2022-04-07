@@ -65,18 +65,6 @@ blank_if_null <- function(s) {
   }
 }
 
-#' Use a named vector to define columns
-#'
-#' @param s a named vector 
-#'
-#' @return a character vector
-#' @export
-#'
-#' @examples
-#' named_vec_to_cols(c(average_sales = "avg(sales)", user_id = "userid"))
-named_vec_to_cols <- function(s) {
-  paste(s, names(s), sep = " as ", collapse = ",\n")
-}
 
 #' Join a vector with 'AND'
 #'
