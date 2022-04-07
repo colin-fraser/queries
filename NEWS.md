@@ -1,3 +1,6 @@
+# queries 0.3.3
+- Added names_to_as argument to comma_join
+
 # queries 0.3.2
 - Added `and_join` helper function
 
