@@ -3,6 +3,7 @@
 S3method(head,query_template)
 S3method(print,query_template)
 export("%>%")
+export(and_join)
 export(blank_if_null)
 export(comma_join)
 export(named_vec_to_cols)
