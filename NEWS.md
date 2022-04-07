@@ -1,4 +1,5 @@
 # queries 0.3.2
+- Added `and_join` helper function
 
 # queries 0.3.1
 - set up github actions and make tests pass on Windows
