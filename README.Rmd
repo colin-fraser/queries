@@ -38,21 +38,23 @@ query <- query_load("tests/testthat/example_with_defaults.sql")
 and then plug in parameters with
 
 ```{r}
-query_substitute(query, metrics = c("SUM(Sales)", "AVG(Sales)")) %>% 
+query_substitute(query, metrics = c(total_sales = "SUM(Sales)", avg_sales = "AVG(Sales)")) %>% 
   cat
 ```
+
+Notice that vector names are converted to column identifiers.
 
 Defaults are applied as specified in the yaml header. You can also create a function that completes the query:
 
 ```{r}
 qf <- query_as_function(query)
-qf(dimensions = c("Country", "Segment", "Product"), metrics = "SUM(Sales)")
+qf(dimensions = c("Country", "Segment", "Product"), metrics = c(Sales = "SUM(Sales)"))
 ```
 
 The created function has arguments corresponding to the params as specified in the yaml header.
 
 ```{r}
-args(qf)
+print(args(qf))
 ```
 
 RStudio will see these and autocomplete them, which is convenient. When I forget a parameter, it tells me.

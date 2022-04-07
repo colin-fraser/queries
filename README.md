@@ -4,7 +4,6 @@
 # queries
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/colin-fraser/queries/actions/workflows/check-standard.yaml/badge.svg?branch=master)](https://github.com/colin-fraser/queries/actions/workflows/check-standard.yaml)
 <!-- badges: end -->
 
 I have a number of parameterized SQL queries that I run regularly. The
@@ -17,7 +16,7 @@ replace parameters.
 The package reads modified sql files that have metadata stored in yaml
 format in a comment block at the top. Here’s a simple example: start
 with a file like
-[tests/testthat/example_with_defaults.sql](tests/testthat/example_with_defaults.sql).
+`[tests/testthat/example_with_defaults.sql](tests/testthat/example_with_defaults.sql)`.
 
 ``` r
 cat(readr::read_file("tests/testthat/example_with_defaults.sql"))
@@ -47,20 +46,22 @@ query <- query_load("tests/testthat/example_with_defaults.sql")
 and then plug in parameters with
 
 ``` r
-query_substitute(query, metrics = c("SUM(Sales)", "AVG(Sales)")) %>% 
+query_substitute(query, metrics = c(total_sales = "SUM(Sales)", avg_sales = "AVG(Sales)")) %>% 
   cat
-#> SELECT SUM(Sales), AVG(Sales), country
+#> SELECT SUM(Sales) as total_sales, AVG(Sales) as avg_sales, country
 #> FROM Customers
 #> GROUP BY country
 ```
+
+Notice that vector names are converted to column identifiers.
 
 Defaults are applied as specified in the yaml header. You can also
 create a function that completes the query:
 
 ``` r
 qf <- query_as_function(query)
-qf(dimensions = c("Country", "Segment", "Product"), metrics = "SUM(Sales)")
-#> SELECT SUM(Sales), Country, Segment, Product
+qf(dimensions = c("Country", "Segment", "Product"), metrics = c(Sales = "SUM(Sales)"))
+#> SELECT SUM(Sales) as Sales, Country, Segment, Product
 #> FROM Customers
 #> GROUP BY Country, Segment, Product
 ```
@@ -69,10 +70,13 @@ The created function has arguments corresponding to the params as
 specified in the yaml header.
 
 ``` r
-args(qf)
+print(args(qf))
 #> function (dimensions = "country", metrics = NULL) 
 #> NULL
 ```
+
+RStudio will see these and autocomplete them, which is convenient. When
+I forget a parameter, it tells me.
 
 ``` r
 qf(dimensions = "Segment")
@@ -93,9 +97,9 @@ have a line that sets the default query location to that path
 
 Which contains files
 
-  - `sales_by_group.sql`
-  - `customer_list.sql`
-  - etc…
+-   `sales_by_group.sql`
+-   `customer_list.sql`
+-   etc…
 
 Whenever I need to run one of these queries, I build the query with
 
