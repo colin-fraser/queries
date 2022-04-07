@@ -3,7 +3,9 @@
 #' @param s a character vector to be joined
 #' @param leading_comma should a leading comma be inserted?
 #' @param trailing_comma should a trailing comma be inserted?
-#' @param quote should the output be quoted?
+#' @param quote should the output be quoted? Default false.
+#' @param names_to_as if this is true and s is named, the names will
+#'   be used as column identifiers. See examples. Defaults to true.
 #'
 #' @return a length-1 character vector
 #' @export
@@ -12,11 +14,20 @@
 #' comma_join(letters)
 #' comma_join(letters, leading_comma = TRUE)
 #' comma_join(letters, quote = TRUE)
+#' 
+#' # named input
+#' comma_join(c(avg_sales = "avg(sales)", "country"), names_to_as = TRUE)
 #'
 comma_join <- function(s, leading_comma = FALSE, trailing_comma = FALSE,
-                       quote = FALSE) {
+                       quote = FALSE, names_to_as = TRUE) {
   if (is.null(s)) {
     return("")
+  }
+  if (names_to_as & !is.null(names(s))) {
+    if (quote) {
+      warning("Both quote and names_to_as are TRUE. You probably don't want this.")
+    }
+    s <- names_to_as(s)
   }
   if (quote) {
     s <- paste0("'", s, "'")
@@ -29,6 +40,11 @@ comma_join <- function(s, leading_comma = FALSE, trailing_comma = FALSE,
     out <- paste0(out, ",")
   }
   return(out)
+}
+
+names_to_as <- function(s) {
+  names <- names(s)
+  ifelse(names != "", paste(s, 'as', names), s)
 }
 
 #' Insert blank character if a variable is null

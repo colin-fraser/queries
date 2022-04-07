@@ -4,7 +4,13 @@
 \alias{comma_join}
 \title{Join a character vector together with commas}
 \usage{
-comma_join(s, leading_comma = FALSE, trailing_comma = FALSE, quote = FALSE)
+comma_join(
+  s,
+  leading_comma = FALSE,
+  trailing_comma = FALSE,
+  quote = FALSE,
+  names_to_as = TRUE
+)
 }
 \arguments{
 \item{s}{a character vector to be joined}
@@ -13,7 +19,10 @@ comma_join(s, leading_comma = FALSE, trailing_comma = FALSE, quote = FALSE)
 
 \item{trailing_comma}{should a trailing comma be inserted?}
 
-\item{quote}{should the output be quoted?}
+\item{quote}{should the output be quoted? Default false.}
+
+\item{names_to_as}{if this is true and s is named, the names will
+be used as column identifiers. See examples. Defaults to true.}
 }
 \value{
 a length-1 character vector
@@ -25,5 +34,8 @@ Join a character vector together with commas
 comma_join(letters)
 comma_join(letters, leading_comma = TRUE)
 comma_join(letters, quote = TRUE)
+
+# named input
+comma_join(c(avg_sales = "avg(sales)", "country"), names_to_as = TRUE)
 
 }
