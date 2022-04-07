@@ -1,3 +1,6 @@
+# queries 0.3.4
+- Added `qt_basic` and `qt_rollup` functions
+
 # queries 0.3.3
 - Added names_to_as argument to comma_join
 
