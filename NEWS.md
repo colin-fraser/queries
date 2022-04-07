@@ -1,3 +1,5 @@
+# queries 0.3.2
+
 # queries 0.3.1
 - set up github actions and make tests pass on Windows
 
