@@ -50,6 +50,7 @@ names_to_as <- function(s) {
 #' Insert blank character if a variable is null
 #'
 #' @param s String to insert, or blank if null
+#' @param output What to print if s is not null
 #'
 #' This is useful for specifying e.g. a column list that may or may not
 #' be part of a query.
@@ -57,12 +58,12 @@ names_to_as <- function(s) {
 #' @return a character vector
 #' @export
 #'
-blank_if_null <- function(s) {
+blank_if_null <- function(s, output = s) {
   if (is.null(s)) {
     return("")
-  } else {
-    return(s)
   }
+  
+  output
 }
 
 

@@ -65,7 +65,7 @@ query_from_string <- function(s, include_header = FALSE) {
 }
 
 separate_head_body <- function(s) {
-  query_lines <- readr::read_lines(s)
+  query_lines <- unlist(strsplit(s, "\n"))
   header_end <- which(substr(query_lines, 1, 2) != "--")[1]
 
   head <- gsub("-- ", "", query_lines[1:(header_end - 1)]) %>%
@@ -175,7 +175,7 @@ query_substitute <- function(qry, ..., query_location = queries_default_location
 
   glue_env <- env_from_params(query$params, ...)
 
-  out <- glue::glue(query$template, .envir = rlang::env(glue_env))
+  out <- glue::as_glue(stringr::str_trim(glue::glue(query$template, .envir = rlang::env(glue_env))))
   if (append_params) {
     param_note <- paste("--", readr::read_lines(yaml::as.yaml(as.list(glue_env))),
       collapse = "\n"

@@ -4,10 +4,12 @@
 \alias{blank_if_null}
 \title{Insert blank character if a variable is null}
 \usage{
-blank_if_null(s)
+blank_if_null(s, output = s)
 }
 \arguments{
-\item{s}{String to insert, or blank if null
+\item{s}{String to insert, or blank if null}
+
+\item{output}{What to print if s is not null
 
 This is useful for specifying e.g. a column list that may or may not
 be part of a query.}
