@@ -64,3 +64,9 @@ qt_rollup <- function(dimensions, metrics, table_name, where = NULL,
   qt_sub("dimensional_rollup.sql", dimensions = dimensions, metrics = metrics,
          table_name = table_name, where = where, order_by = order_by)
 }
+
+dimension_names <- function(x, prefix = 'dim_') {
+  f <- function(x, y) if (length(x) == 0 || is.null(x) || nchar(x) == 0) y else x
+  names <- names(x)
+  sapply(1:length(x), function(x) f(names[x], paste0(prefix, x)))
+}

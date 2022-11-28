@@ -29,3 +29,12 @@ test_that("qt_rollup", {
     where = c("date>=2020", "country in ('US', 'CA')")
   ))
 })
+
+test_that("dimension_names", {
+  expect_equal(dimension_names(c(a=1, b=2)), c('a','b'))
+  expect_equal(dimension_names(1:2), c('dim_1', 'dim_2'))
+  expect_equal(dimension_names(c(a = 1, 2, b = 3, 4)), c('a', 'dim_2', 'b', 'dim_4'))
+  expect_equal(dimension_names(c(a = 1, 2, b = 3, 4), 'col_'), c('a', 'col_2', 'b', 'col_4'))
+}
+          
+          )
